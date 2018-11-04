@@ -52,4 +52,32 @@ Here is an overview of the files currently in use:
 | ansible.cfg  | Standard ansible configuration file, with tweaks for vault and inventory location |
 | inventory: | Basic static inventory file listing all switches in the lab environment|
 | group_vars/lab/vars | placeholder for global variables related to the lab group|
-| group_vars/lab/vars | placeholder for vault variables related to the lab group (currently contains ssh password for Cisco switches)|
+| group_vars/lab/vault| placeholder for vault variables related to the lab group (currently contains ssh password for Cisco switches)|
+
+Example of raw adhoc command:
+```
+erikr@erikbuntu:~/ansible_lab$ ansible -m raw -a "show run | i hostname" lab
+s12-iol | CHANGED | rc=0 >>
+hostname s12-iol
+Shared connection to s12-iol closed.
+
+
+s14-iol | CHANGED | rc=0 >>
+hostname s14-iol
+Shared connection to s14-iol closed.
+
+
+s11-iol | CHANGED | rc=0 >>
+hostname s11-iol
+Shared connection to s11-iol closed.
+
+
+s13-iol | CHANGED | rc=0 >>
+hostname s13-iol
+Shared connection to s13-iol closed.
+
+
+s15-iol | CHANGED | rc=0 >>
+hostname s15-iol
+Shared connection to s15-iol closed.
+```
