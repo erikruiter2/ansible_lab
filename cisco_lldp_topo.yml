@@ -1,0 +1,7 @@
+---
+- name: Generate LLDP topology playbook
+  hosts: lab
+  gather_facts: no
+
+  roles:
+    - cisco_lldp_topo
