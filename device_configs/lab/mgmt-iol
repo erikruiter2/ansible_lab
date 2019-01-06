@@ -1,0 +1,145 @@
+Building configuration...
+
+Current configuration : 1859 bytes
+!
+! Last configuration change at 21:50:09 GMT Sat Jan 5 2019
+!
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname mgmt-iol
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+username ansible privilege 15 password 0 ********
+aaa new-model
+!
+!
+aaa authorization exec default local if-authenticated 
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone GMT 0 0
+!
+ip cef
+!
+!
+no ip domain-lookup
+ip domain-name inxn.net
+no ipv6 cef
+ipv6 multicast rpf use-bgp
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+lldp run
+!
+ip ssh version 2
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet0/1
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet0/2
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet0/3
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet1/0
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet1/1
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet1/2
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet1/3
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet2/0
+ shutdown
+!
+interface Ethernet2/1
+ shutdown
+!
+interface Ethernet2/2
+ shutdown
+!
+interface Ethernet2/3
+ shutdown
+!
+interface Ethernet3/0
+ shutdown
+!
+interface Ethernet3/1
+ shutdown
+!
+interface Ethernet3/2
+ switchport access vlan 10
+ switchport mode access
+!
+interface Ethernet3/3
+ switchport access vlan 10
+ switchport mode access
+!
+interface Vlan10
+ ip address 10.100.1.100 255.255.255.0
+!
+!
+no ip http server
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 1 4
+ transport input ssh
+!
+end
