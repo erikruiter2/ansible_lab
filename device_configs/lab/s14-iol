@@ -1,0 +1,164 @@
+Building configuration...
+
+Current configuration : 2106 bytes
+!
+! Last configuration change at 21:43:14 GMT Sat Jan 5 2019
+!
+version 15.1
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service compress-config
+!
+hostname s14-iol
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+username ansible privilege 15 password 0 ********
+aaa new-model
+!
+!
+aaa authorization exec default local if-authenticated 
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone GMT 0 0
+no ip routing
+!
+no ip cef
+!
+!
+no ip domain-lookup
+ip domain-name inxn.net
+no ipv6 cef
+ipv6 multicast rpf use-bgp
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+lldp run
+!
+ip ssh version 2
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1-9,11-4094
+ switchport mode trunk
+!
+interface Ethernet0/0
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1-9,11-4094
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface Ethernet0/1
+ switchport trunk encapsulation dot1q
+ switchport trunk allowed vlan 1-9,11-4094
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface Ethernet0/2
+ shutdown
+ duplex auto
+!
+interface Ethernet0/3
+ shutdown
+ duplex auto
+!
+interface Ethernet1/0
+ shutdown
+ duplex auto
+!
+interface Ethernet1/1
+ shutdown
+ duplex auto
+!
+interface Ethernet1/2
+ shutdown
+ duplex auto
+!
+interface Ethernet1/3
+ shutdown
+ duplex auto
+!
+interface Ethernet2/0
+ shutdown
+ duplex auto
+!
+interface Ethernet2/1
+ shutdown
+ duplex auto
+!
+interface Ethernet2/2
+ shutdown
+ duplex auto
+!
+interface Ethernet2/3
+ shutdown
+ duplex auto
+!
+interface Ethernet3/0
+ shutdown
+ duplex auto
+!
+interface Ethernet3/1
+ shutdown
+ duplex auto
+!
+interface Ethernet3/2
+ shutdown
+ duplex auto
+!
+interface Ethernet3/3
+ switchport access vlan 10
+ switchport mode access
+!
+interface Vlan10
+ ip address 10.100.1.14 255.255.255.0
+ no ip route-cache
+!
+!
+no ip http server
+!
+!
+!
+!
+snmp-server location DUS
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 1 4
+ transport input ssh
+!
+end
