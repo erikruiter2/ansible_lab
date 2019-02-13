@@ -1,21 +1,12 @@
-- name: get LLDP information from device
-  napalm_get_facts:
-    hostname: '{{ inventory_hostname }}'
-    username: '{{ ansible_user }}'
-    dev_os: '{{ ansible_network_os }}'
-    password: '{{ ansible_ssh_pass }}'
-    filter: ['facts', 'lldp_neighbors']
-  register: result
-
 - name: generate .dot data
   set_fact:
     lldp_topo: "{{ lookup('template', 'lldp_topo.dot.j2') }}"
-  delegate_to: 127.0.0.1
+  delegate_to: localhost
   run_once: True 
 
 - name: generate lldp_topo.png
   command: /usr/bin/dot -Tpng -o lldp_topo.png
   args:
     stdin: "{{ lldp_topo }}"
-  delegate_to: 127.0.0.1
+  delegate_to: localhost
   run_once: True 

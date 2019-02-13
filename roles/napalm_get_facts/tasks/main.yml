@@ -1,0 +1,8 @@
+- name: get LLDP information from device
+  napalm_get_facts:
+    hostname: '{{ inventory_hostname }}'
+    username: '{{ ansible_user }}'
+    dev_os: '{{ ansible_network_os }}'
+    password: '{{ ansible_ssh_pass }}'
+    filter: '{{ filter }}' 
+  register: result

@@ -1,7 +1,15 @@
 ---
-- name: Generate LLDP topology playbook
+- name: Gather napalm facts
   hosts: lab
   gather_facts: no
 
   roles:
+    - { role: napalm_get_facts , filter: ['facts', 'lldp_neighbors'] } 
+
+- name: Generate LLDP topology graph
+  hosts: localhost
+  gather_facts: no
+
+  roles:
     - cisco_lldp_topo
+
