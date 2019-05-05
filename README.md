@@ -1,7 +1,14 @@
 # ansible_lab
-Ansible lab environment as part of the ispace.net Network automation course.
+Ansible lab environment as part of the [ipspace.net](https://www.ipspace.net) [Network automation course](https://www.ipspace.net/Building_Network_Automation_Solutions).
 
-Environment description
+# Table of contents
+1. [Environment description](#environment_description)
+2. [Topology description](#topology_description)
+3. [Ansible configuration](#ansible_configuration)
+4. [Implemented playbooks](#implemented_playbooks)
+
+
+Environment description  <a name="environment_description"></a>
 -----------------------
 The lab is built in a VMware 6.5 ESXi host.
 It consists of two virtual servers:
@@ -22,7 +29,7 @@ Local vswitch topology:<br>
 Uplink vswitch topology:<br>
 <img src='https://github.com/erikruiter2/ansible_lab/raw/master/doc/vswitch_uplink.png' width=400>
 
-Topology description
+Topology description  <a name="topology_description"></a>
 --------------------
 On Eve-NG there runs a virtual network environment with the following switches:
 
@@ -42,7 +49,7 @@ All switches have a interface in a switch management vlan, which is switched thr
 
 
 
-Ansible configuration:
+Ansible configuration  <a name="ansible_configuration"></a>
 ----------------------
 At the start of the course, the Ansible configuration is still basic.<br>
 Here is an overview of the files currently in use:
@@ -50,7 +57,7 @@ Here is an overview of the files currently in use:
 | File | Description |
 | :---- | :----- |
 | ansible.cfg  | Standard ansible configuration file, with tweaks for vault and inventory location |
-| inventory: | Basic static inventory file listing all switches in the lab environment|
+| inventory | Basic static inventory file listing all switches in the lab environment|
 | group_vars/lab/vars | placeholder for global variables related to the lab group|
 | group_vars/lab/vault| placeholder for vault variables related to the lab group (currently contains ssh password for Cisco switches)|
 
@@ -81,3 +88,9 @@ s15-iol | CHANGED | rc=0 >>
 hostname s15-iol
 Shared connection to s15-iol closed.
 ```
+
+
+Implemented playbooks <a name="implemented_playbooks"></a> 
+---------------------
+
+* More to be added as the course progresses
