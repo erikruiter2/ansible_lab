@@ -93,19 +93,19 @@ Shared connection to s15-iol closed.
 Implemented playbooks <a name="implemented_playbooks"></a> 
 ---------------------
 
-**[backup_config.yml:](../blob/master/backup_config.yml)**
+**[backup_config.yml:](../../blob/master/backup_config.yml)**
 Playbook which reads config from all hosts and stores it in the device_config directory. Changes are also commited to the repository
 
-**[napalm_get_facts.yml:](../blob/master/napalm_get_facts.yml)**
+**[napalm_get_facts.yml:](../../blob/master/napalm_get_facts.yml)**
 Basic playbook to get napalm facts from devices. A filter can be specified when running the playbook.
 
-**[cisco_lldp_topo.yml:](../blob/master/cisco_lldp_topo.yml)** (2nd course assignment)
+**[cisco_lldp_topo.yml:](../../blob/master/cisco_lldp_topo.yml)** (2nd course assignment)
 Playbook wheach reads config from all hosts and tries to build an LLDP topology graph using graphviz 
 
-**[cisco_device_provisioning.yml:](../blob/master/cisco_device_provisioning.yml)** (3rd course assignment)
+**[cisco_device_provisioning.yml:](../../blob/master/cisco_device_provisioning.yml)** (3rd course assignment)
 Playbook which generates and installs basic cisco device config.
 
-**[cisco_vlan_service.yml:](../blob/master/cisco_vlan_service.yml)** (3rd course assignment)
+**[cisco_vlan_service.yml:](../../blob/master/cisco_vlan_service.yml)** (3rd course assignment)
 Playbook which generates and installs cisco config for provisioning a layer 2 vlan service per port
 
 * More to be added as the course progresses
