@@ -3,7 +3,7 @@ Ansible role which generates a lldp_topo.png image containing the discovered net
 
 Role description
 -----------------------
-The role queries LLDP information using [Napalm](https://napalm-automation.net/) facts. The facts are used to generate a [Graphviz](https://www.graphviz.org/) .dot file using a .j2 template.<br>
+The role makes use of LLDP neighbor facts gathered by [Napalm](https://napalm-automation.net/) using the napalm_get_facts role. The facts are used to generate a [Graphviz](https://www.graphviz.org/) .dot file using a .j2 template.<br>
 The template keeps track of already processed interfaces, so that there are no double connections in the graphs.<br>
 The output of the template is used as stdin for executing the dot command which generates the image of the topology.
 The topology contains all participating hosts along with their connected interfaces.<br>
@@ -65,4 +65,5 @@ And this results in the following image:
 
 <img src='https://github.com/erikruiter2/ansible_lab/raw/master/doc/lldp_topo.png' width=600>
 
-
+Please note:
+It is difficult to align grahpviz elements. Especially in larger topologies the result might look a bit messy.
