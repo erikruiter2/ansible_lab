@@ -1,0 +1,10 @@
+---
+- name: Device and service provisioning for cisco devices
+  hosts: lab
+  connection: network_cli
+  gather_facts: no
+
+  roles: 
+    - cisco_device_provisioning
+    - cisco_vlan_service
+

@@ -1,0 +1,4 @@
+vault_ansible_ssh_pass: <pass>
+vault_cisco_console_pass: <pass>
+vault_cisco_enable_secret: <pass>
+vault_cisco_tacacs_key: <pass>

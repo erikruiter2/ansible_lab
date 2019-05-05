@@ -1,0 +1,15 @@
+---
+- name: generate CLI output
+  set_fact:
+    port_config: "{{ lookup('template', 'port_config.j2') }}"
+    delegate_to: 127.0.0.1
+- debug: var=port_config
+
+- name: Pushing config ... please wait
+  ios_config:
+    src: port_config.j2
+  ignore_errors: yes
+  register: OUTPUT
+
+- debug: var=OUTPUT
+

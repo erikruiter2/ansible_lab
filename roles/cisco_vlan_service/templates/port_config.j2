@@ -1,0 +1,39 @@
+{% import 'interface_macros.j2' as int %}
+
+{# Generate VLANs known on the switch #}
+
+{% for vlan in vlans %}
+{% for name, id in vlan.items() %}
+vlan {{ id }}
+ name {{ name }}
+{% endfor %}
+{% endfor %}
+exit
+
+{# Generate per interface configuration making use of either port profiles or variables as stated in the host_vars file #}
+
+{% for port in interfaces %}
+int {{ port }}
+{% set interface = interfaces[port] %}
+{% if 'portprofile' in interface %}
+{% if interfaces[port]['portprofile'] in portprofiles|map(attribute="name") %}
+{% set portprofile = portprofiles | selectattr('name', 'equalto', interfaces[port]['portprofile'] ) | list %}
+{% if 'portmode' in interface %}{{ int.set_portmode(interface) }}{% else %}
+{{ int.set_portmode(portprofile[0]) }}{% endif %}
+{% if 'adminstate' in interface %}{{ int.set_adminstate(interface) }}{% else %}
+{{ int.set_adminstate(portprofile[0]) }}{% endif %}
+{% if 'description' in interface %}{{ int.set_description(interface) }}{% else %}
+{{ int.set_description(portprofile[0]) }}{% endif %}
+{% if 'poe' in interface %}{{ int.set_poe(interface) }}{% else %}
+{{ int.set_poe(portprofile[0]) }}{% endif %}
+{% if 'cdp' in interface %}{{ int.set_cdp(interface) }}{% else %}
+{{ int.set_cdp(portprofile[0]) }}{% endif %}
+{% if 'portsecurity' in interface %}{{ int.set_portsecurity(interface) }}{% else %}
+{{ int.set_portsecurity(portprofile[0]) }}{% endif %}
+{% if 'customstatements' in interface %}{{ int.set_customstatements(interface) }}{% else %}
+{{ int.set_customstatements(portprofile[0]) }}{% endif %}
+{% endif %}
+{% endif %}
+exit
+{% endfor %}
+

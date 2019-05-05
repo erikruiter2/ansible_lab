@@ -1,0 +1,81 @@
+{% macro set_adminstate(interface) %}
+{% if 'adminstate' in interface %}
+{% if interface['adminstate'] == True or interface['adminstate'] == "enabled" %}no shutdown
+{% else %}shutdown
+{% endif %}
+{% else %}shutdown
+{% endif %}
+{% endmacro %}
+
+{% macro set_description(interface) %}
+{% if 'description' in interface %}
+{% if interface['description']|length >= 1 %}description {{ interface['description'] }}
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro set_portmode(interface) %}
+{% if interface['portmode'] == "access" %}
+switchport mode access
+switchport access vlan {{ interface['vlan'] }}
+spanning-tree portfast
+!spanning-tree bpduguard enable
+{% endif %}
+{% if interface['portmode'] == "trunk" %}switchport trunk encapsulation dot1q
+switchport mode trunk
+no spanning-tree portfast
+no spanning-tree bpduguard enable
+no switchport access vlan
+switchport trunk allowed vlan {{ interface['vlan'] }}
+{% if 'nativevlan' in interface %}switchport trunk native vlan {{ interface['nativevlan'] }}
+{% else %}no switchport trunk native vlan
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro set_poe(interface) %}
+{% if 'poe_supported' == True %}
+{% if 'poe' in interface %}
+{% if interface['poe'] %}power inline auto
+{% endif %}
+{% if not interface['poe'] %}power inline never
+{% endif %}
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro set_cdp(interface) %}
+{% if 'cdp' in interface %}
+{% if interface['cdp'] %}cdp enable
+{% endif %}
+{% if not interface['cdp'] %}no cdp enable
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro set_portsecurity(interface) %}
+{% if 'portsecurity' in interface %}
+{% if interface['portsecurity'] == "none" %}no switchport port-security
+{% elif interface['portsecurity'] == 'sticky' %}
+switchport port-security
+switchport port-security mac-address sticky
+switchport port-security maximum 1
+{% else %}
+switchport port-security
+switchport port-security mac-address {{ interface['portsecurity'] }}
+{% endif %}
+{% else %}
+no switchport port-security
+no switchport port-security mac-address 
+no switchport port-security maximum
+{% endif %}
+{% endmacro %}
+
+{% macro set_customstatements(interface) %}
+{% if 'customstatements' in interface %}
+{% for statement in interface['customstatements'] %}
+{{ statement }}
+{% endfor %}
+{% endif %}
+{% endmacro %}
+

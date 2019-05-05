@@ -1,0 +1,13 @@
+---
+- name: port config for cisco devices
+  hosts: lab
+  connection: network_cli
+  gather_facts: no
+
+  roles: 
+    - cisco_vlan_service
+
+
+    
+
+

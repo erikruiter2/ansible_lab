@@ -1,5 +1,104 @@
-ansible_connection: network_cli
-ansible_network_os: ios
-ansible_user: ansible
-ansible_ssh_pass: "{{ vault_ansible_ssh_pass }}" 
 
+# Per group device provisioning variables:
+
+syslog:
+  - server: 192.168.1.1
+
+snmp:
+  - server: 192.168.1.1
+    community: public
+    version: 2c
+  - server: 192.168.1.2
+    community: test123
+    version: 2c
+
+dnsdomain: inxn.net
+
+dnsservers:
+  - 8.8.8.8
+  - 4.4.4.4
+
+ntp:
+  - server: 192.168.1.1
+
+sw_mgmt_svi:
+ - vlan: 10
+ - ip: "{{ ansible_host_ip }}"
+ - netmask: 255.255.255.0
+ - default_gw: 10.1.100.1
+
+users:
+  - name: ansible
+    password: "{{ ansible_ssh_pass }}"
+  - name: netuser
+    password: bladiebla
+
+
+console_password: "{{ vault_cisco_console_pass }}"
+enable_secret: "{{ vault_cisco_enable_secret }}"
+
+tacacs:
+ - server: 192.168.1.1
+   key: "{{ vault_cisco_tacacs_key }}"
+ - server: 192.168.1.2
+   key: "{{ vault_cisco_tacacs_key }}"
+
+# Per group VLAN service provisioning
+
+vlans:
+  - cctv: 411
+  - ipphone: 39
+  - office: 15
+  - wifi: 999
+  - wifi_mgmt: 998
+  - sw_mgmt: 10
+
+portprofiles:
+  - name: lab_switch_mgmt_vlan_10
+    adminstate: enabled
+    subnet: 10.1.0.0/24
+    portmode: access
+    vlan: 10
+    poe: False
+    cdp: True
+  - name: cctv
+    adminstate: enabled
+    subnet: 10.1.1.0/24
+    portmode: access
+    vlan: 411
+    portsecurity: sticky
+    poe: True
+    cdp: False
+  - name: office
+    adminstate: enabled
+    description: port configuration for CCTV devices
+    subnet: 192.168.1.0/24
+    portmode: access
+    vlan: 15
+    voicevlan: 39
+    poe: True
+    cdp: False
+    portsecurity: none
+  - name: wifi_accesspoint
+    adminstate: enabled
+    description: port configuration for WIFI accesspoints
+    subnet: 192.168.99.0/24
+    portmode: trunk
+    vlan: 998,999
+    nativevlan: 998
+    poe: True
+    cdp: False
+  - name: lab_uplink_port
+    adminstate: enabled
+    description: Uplink port
+    subnet: 0.0.0.0/0
+    portmode: trunk
+    vlan: all
+    poe: False
+    cdp: True
+  - name: disabled
+    portmode: access
+    vlan: 2
+    adminstate: disabled
+    description: disabled
+    portsecurity: none
