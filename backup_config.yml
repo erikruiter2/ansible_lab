@@ -1,0 +1,9 @@
+- name: Backup configs
+  hosts: all
+  gather_facts: no
+
+  vars: 
+    localpath: "/home/erikr/ansible_lab/device_configs"
+    commit_message: "test"
+  roles:
+    - backup_config

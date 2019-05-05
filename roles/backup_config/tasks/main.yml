@@ -1,0 +1,34 @@
+---
+# Role requires localpath to be defined as storage location of the config files
+- name: create group directories
+  file: 
+    path: "{{ localpath }}/{{ item }}" 
+    state: directory
+  with_items: "{{ group_names }}"
+
+- name: get config from device
+  napalm_get_facts:
+    hostname: '{{ inventory_hostname }}'
+    username: '{{ ansible_user }}'
+    dev_os: '{{ ansible_network_os }}'
+    password: '{{ ansible_ssh_pass }}'
+    filter: ['config']
+  register: result
+
+- name: Write config to file
+  copy:
+    content: "{{ result.ansible_facts.napalm_config.running }}" 
+    dest: "{{ localpath }}/{{ item }}/{{ inventory_hostname }}"
+  with_items: "{{ group_names }}"
+
+- name: add changes to git repo
+  shell: "git add {{ localpath }}/{{ item }}/*"
+  with_items: "{{ group_names }}"
+  delegate_to: 127.0.0.1
+  run_once: True
+
+
+- name: commit changes to git repo
+  shell: "git commit -m {{ commit_message }}"
+  delegate_to: 127.0.0.1
+  run_once: True

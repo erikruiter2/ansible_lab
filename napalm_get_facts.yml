@@ -1,0 +1,8 @@
+---
+- name: Gather napalm facts
+  hosts: lab
+  gather_facts: no
+
+  roles:
+    - { role: napalm_get_facts , filter: ['facts' ] } 
+
