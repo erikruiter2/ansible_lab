@@ -12,7 +12,8 @@ Implemented variables:
   - server: 192.168.44.1
     community: public
     version: 2c
-</pre><td>SNMP servers and communities</tr>
+    access: readonly
+</pre><td>SNMP servers and communities. Access can be readonly/readwrite. When ommited access will be readwrite</tr>
 
 <tr><td>syslog<td><pre>syslog:
   - server: 192.168.1.1
@@ -32,10 +33,10 @@ Implemented variables:
 
 <tr><td>sw_mgmt_svi<td><pre>sw_mgmt_svi:
  - vlan: 10
- - ip: "{{ ansible_host_ip }}"
- - netmask: 255.255.255.0
- - default_gw: 10.1.100.1
-</pre><td>SVI for switch management</tr>
+   ip: "{{ ansible_host_ip }}"
+   netmask: 255.255.255.0
+   default_gw: 10.1.100.1
+</pre><td>SVI for switch management. Generates a vlan interface (SVI) for inband management. It will add a default gateway and set source-interfaces for various protocol. (A bit shaky, since this interface needs to be present any way to access the device in the lab.)</tr>
 
 <tr><td>users<td><pre>users:
   - name: ansible
