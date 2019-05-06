@@ -46,10 +46,10 @@ Implemented variables:
 </pre><td>Device user authentication</tr>
 
 <tr><td>console_password<td><pre>
-console_password: "{{ vault_cisco_console_pass }}"
+console_password: "{{ vault_console_pass }}"
 </pre><td>Serial console password</tr>
 
-<tr><td>enable_secret<td><pre>enable_secret: "{{ vault_cisco_enable_secret }}"
+<tr><td>enable_secret<td><pre>enable_secret: "{{ vault_enable_secret }}"
 </pre><td>Cisco enable secret</tr>
 
 <tr><td>tacacs<td><pre>tacacs:
