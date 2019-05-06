@@ -102,7 +102,7 @@ Basic playbook to get napalm facts from devices. A filter can be specified when 
 **[cisco_lldp_topo.yml:](../../blob/master/cisco_lldp_topo.yml)** (2nd course assignment)
 Playbook wheach reads config from all hosts and tries to build an LLDP topology graph using graphviz 
 
-**[cisco_device_provisioning.yml:](../../blob/master/cisco_device_provisioning.yml)** (3rd course assignment)
+**[cisco_provisioning.yml:](../../blob/master/cisco_provisioning.yml)** (3rd course assignment)
 Playbook which generates and installs basic cisco device config.
 
 **[cisco_vlan_service.yml:](../../blob/master/cisco_vlan_service.yml)** (3rd course assignment)
