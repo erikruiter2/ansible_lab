@@ -1,0 +1,87 @@
+{% import 'provisioning_macros.j2' as prov %}
+
+service timestamps debug datetime msec
+service timestamps log datetime msec localtime
+service password-encryption
+service compress-config
+service unsupported-transceiver
+!
+hostname {{ ansible_host }}
+enable secret 0 {{ enable_secret }}
+aaa new-model
+!
+!
+aaa authentication login netlogin group tacacs+ local
+aaa authorization exec default group tacacs+ local if-authenticated
+aaa authorization exec netlogin if-authenticated
+aaa accounting send stop-record authentication failure
+aaa accounting exec netlogin start-stop group tacacs+
+aaa accounting commands 1 default start-stop group tacacs+
+aaa accounting commands 15 default start-stop group tacacs+
+aaa accounting commands 15 neteng start-stop group tacacs+
+aaa accounting network netlogin start-stop group tacacs+
+aaa accounting system default start-stop group tacacs+
+!
+aaa session-id common
+clock timezone CET 1 0
+clock summer-time CET recurring last Sun Mar 2:00 last Sun Oct 3:00
+!
+!
+no ip domain-lookup
+ip domain-name {{ dnsdomain }} 
+!
+!
+qos queue-softmax-multiplier 100
+vtp mode transparent
+!
+crypto key generate rsa mod 2048
+!
+diagnostic bootup level minimal
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+hw-switch switch 1 logging onboard message level 3
+
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+no ip http secure-server
+!
+!
+ip ssh version 2
+logging trap debugging
+
+{% if users is defined %}{{ prov.set_users(users) }}{% endif %}
+{% if dnsservers is defined %}{{ prov.set_dnsservers(dnsservers) }}{% endif %}
+{% if snmp is defined %}{{ prov.set_snmp(snmp) }}{% endif %}
+{% if tacacs is defined %}{{ prov.set_tacacs(tacacs) }}{% endif %}
+{% if syslog is defined %}{{ prov.set_syslog(syslog) }}{% endif %}
+{% if ntp is defined %}{{ prov.set_ntp(ntp) }}{% endif %}
+{% if sw_mgmt_svi is defined %}{{ prov.set_mgmt_svi(sw_mgmt_svi) }}{% endif %}
+no vstack
+!
+!
+banner login ^
+******************************************************************
+*                                                                *
+*      You are now attempting to access the * PRIVATE *          *
+*                                                                *
+*                       InterXion Network                        *
+*                                                                *
+* * * THIS SERVICE IS AVAILABLE TO AUTHORISED PERSONNEL ONLY * * *
+*                                                                *
+*     *****UNAUTHORISED ACCESS IS STRICTLY FORBIDDEN******       *
+*                                                                *
+******************************************************************^C
+!
+line con 0
+ password {{ console_password }} 
+ exec-timeout 10
+ stopbits 1
+line vty 0 15
+ transport input ssh
+ accounting exec netlogin
+ login authentication netlogin
+ exec-timeout 10
+!
+
+end

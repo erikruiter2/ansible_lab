@@ -1,0 +1,55 @@
+{% macro set_snmp(snmp) %}
+{% for server in snmp %}
+{% set access = 'RO' %}
+{% if 'access' in server.keys() %}
+{% if server['access'] == 'readwrite' %}{% set access = 'RW' %} {% endif %}
+{% endif %}
+snmp-server community {{ server['community'] }} {{ access }}
+snmp-server host {{ server['server'] }} version {{ server['version'] }} {{ server['community'] }}
+{% endfor %}
+{% endmacro %}
+
+{% macro set_tacacs(tacacs) %}
+{% for server in tacacs %}
+tacacs-server host {{ server['server'] }} timeout 5
+tacacs-server key 0 {{ server['key'] }} 
+{% endfor %}
+tacacs-server directed-request
+{% endmacro %}
+
+{% macro set_syslog(syslog) %}
+{% for server in syslog %}
+logging host {{ server['server'] }}
+{% endfor %}
+{% endmacro %}
+
+{% macro set_ntp(ntp) %}
+{% for server in ntp %}
+ntp server {{ server['server'] }}
+{% endfor %}
+{% endmacro %}
+
+{% macro set_dnsservers(dnsservers) %}
+ip domain lookup
+{% for server in dnsservers %}
+ip name-server {{ server }}
+{% endfor %}
+{% endmacro %}
+
+{% macro set_mgmt_svi(sw_mgmt_svi) %}
+{{ sw_mgmt_svi }}
+interface vlan{{ sw_mgmt_svi[0]['vlan'] }}
+description management interface
+ip address {{ sw_mgmt_svi[0]['ip'] }} {{ sw_mgmt_svi[0]['netmask'] }}
+no shut
+ip default-gateway {{ sw_mgmt_svi[0]['default_gw'] }}
+ntp source vlan {{ sw_mgmt_svi[0]['vlan'] }}
+logging source-interface vlan{{ sw_mgmt_svi[0]['vlan'] }}
+snmp-server source-interface vlan{{ sw_mgmt_svi[0]['vlan'] }}
+{% endmacro %}
+
+{% macro set_users(users) %}
+{% for user in users %}
+username {{ user['name'] }} privilege 15 secret 0 {{ user['password'] }}
+{% endfor %}
+{% endmacro %}

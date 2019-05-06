@@ -8,9 +8,11 @@ snmp:
   - server: 192.168.1.1
     community: public
     version: 2c
+    access: readonly
   - server: 192.168.1.2
     community: test123
     version: 2c
+    access: readwrite
 
 dnsdomain: inxn.net
 
@@ -23,9 +25,9 @@ ntp:
 
 sw_mgmt_svi:
  - vlan: 10
- - ip: "{{ ansible_host_ip }}"
- - netmask: 255.255.255.0
- - default_gw: 10.1.100.1
+   ip: "{{ ansible_host }}"
+   netmask: 255.255.255.0
+   default_gw: 10.1.100.1
 
 users:
   - name: ansible

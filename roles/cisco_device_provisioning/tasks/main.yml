@@ -1,0 +1,15 @@
+---
+- name: generate CLI output
+  set_fact:
+    prov_config: "{{ lookup('template', 'provisioning.j2') }}"
+    delegate_to: localhost
+- debug: var=prov_config
+
+- name: Pushing config ... please wait
+  ios_config:
+    src: provisioning.j2
+  ignore_errors: yes
+  register: OUTPUT
+
+- debug: var=OUTPUT
+

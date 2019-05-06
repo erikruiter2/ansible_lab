@@ -1,11 +1,11 @@
 [lab]
-s01-iol
-s11-iol
-s12-iol
-s13-iol
-s14-iol
-s15-iol
-s16-iol
-s17-iol
-s18-iol
-mgmt-iol
+s01-iol ansible_host=10.100.1.1
+s11-iol ansible_host=10.100.1.11
+s12-iol ansible_host=10.100.1.12
+s13-iol ansible_host=10.100.1.13
+s14-iol ansible_host=10.100.1.14
+s15-iol ansible_host=10.100.1.15
+s16-iol ansible_host=10.100.1.16
+s17-iol ansible_host=10.100.1.17
+s18-iol ansible_host=10.100.1.18
+mgmt-iol ansible_host=10.100.1.100
