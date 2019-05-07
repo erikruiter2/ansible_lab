@@ -51,39 +51,39 @@ There are many different device types which can be connected to the switch, whic
 * Portprofiles are assigned in the hostvars file of the switch. Each interface can list a single portprofile (or none).
 * Variables in the portprofile can be overwritten in the hostvars file.
 
-Some practical examples of portprofiles, which are written in the group_vars file:
+Some possible (fictional) examples of portprofiles, which are written in the group_vars file:
 <table>
   <th>Example</th><th>Comments</th>
   <tr><td><pre>
   - name: cctv
     description: CCTV device
     portmode: access
-    vlan: 411
+    vlan: 11
     portsecurity: sticky
     poe: True
-    cdp: False</pre></td><td>
+    cdp: False</pre></td><td> port config for a CCTV device. Untagged interface in vlan 11, using sticky mac, and provides PoE for the camera.
     </td></tr><td><pre>
   - name: office
     portmode: access
     vlan: 15
     voicevlan: 39
     poe: True
-    cdp: True</pre></td><td>
+    cdp: True</pre></td><td>Basic office port having a voice vlan and cdp for connected IP phone. No port security configured to allow BYOD.
     </td></tr><td><pre>
   - name: wifi_ap
     description: WIFI Accesspoint
     portmode: trunk
-    vlan: 998,999
-    nativevlan: 998
+    vlan: 100,101
+    nativevlan: 101
     poe: True
-    cdp: False</pre></td><td>
+    cdp: False</pre></td><td>Configuration for a WIFI accesspoint. It has tagging enabled, using a native vlan for management of the AP. PoE is required for powering the device.
     </td></tr><td><pre>
   - name: lab_uplink_port
     description: Uplink port
     portmode: trunk
     vlan: all
     poe: False
-    cdp: True</pre></td><td>
+    cdp: True</pre></td><td>Trunk port as a uplink to the spine switch.
     </td></tr>
 </table>
 
@@ -127,3 +127,6 @@ This is a list of all variables currently available:
 |portsecurity | none / sticky / aaaa.bbbb.cccc | none | Assigns port security to the port. This can be a single sticky address, or a specified MAC address |
 |customstatements | any cisco statement | none | Allows a list of custom config statements to add to the port |
   
+The required config statements are generated with help of a jinja template file [port_config.j2](../../roles/cisco_vlan_service/templates/port_config.j2)<br>
+The template generates known VLANs specified in the group_vars, and then it loops through the individual interfaces.<br>
+Each variable has its own macro which is included from [interface_macros.j2](../../roles/cisco_vlan_service/templates/interface_macros.j2) to keep the template nice and tidy.
