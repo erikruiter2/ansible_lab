@@ -1,0 +1,97 @@
+interfaces:
+  Ethernet0/0:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_uplink_port
+  Ethernet0/1:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_uplink_port
+  Ethernet0/2:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_cctv_vlan_100
+  Ethernet0/3:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_cctv_vlan_100
+  Ethernet1/0:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_cctv_vlan_100
+  Ethernet1/1:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_cctv_vlan_100
+  Ethernet1/2:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_bms_vlan_101
+  Ethernet1/3:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_bms_vlan_101
+  Ethernet2/0:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_bms_vlan_101
+  Ethernet2/1:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_bms_vlan_101
+  Ethernet2/2:
+    adminstate: disabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: disabled
+  Ethernet2/3:
+    adminstate: disabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: disabled
+  Ethernet3/0:
+    adminstate: disabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: disabled
+  Ethernet3/1:
+    adminstate: disabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: disabled
+  Ethernet3/2:
+    adminstate: disabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: disabled
+  Ethernet3/3:
+    adminstate: enabled
+    associated_asset: ''
+    description: ''
+    poe: false
+    portprofile: lab_switch_mgmt_vlan_10

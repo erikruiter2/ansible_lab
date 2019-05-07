@@ -15,7 +15,7 @@
 {% endmacro %}
 
 {% macro set_portmode(interface) %}
-{% if interface['portmode'] == "access" %}
+{% if interface['portmode'] != "trunk" %}
 switchport mode access
 switchport access vlan {{ interface['vlan'] }}
 spanning-tree portfast
