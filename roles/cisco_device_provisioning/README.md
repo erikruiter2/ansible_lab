@@ -44,10 +44,14 @@ console_password: "{{ vault_console_pass }}"</pre><td>Serial console password</t
 VLAN service provisioning
 -------------------------
 
-Each interface on the siwtch provides a vlan service for the connected device.
+Each interface on the siwtch provides a vlan service for the connected device.<br>
 There are many different device types which can be connected to the switch, which can have different ethernet switching requirements. To group the required statements for configuring a port, a port profile can be created, so that the configuration per port stays compact, without redundant information.
 
-Some practical examples of portprofiles:
+* The port profiles are specified in the group_vars file of the related group.
+* Portprofiles are assigned in the hostvars file of the switch. Each interface can list a single portprofile (or none).
+* Variables in the portprofile can be overwritten in the hostvars file.
+
+Some practical examples of portprofiles, which are written in the group_vars file:
 <table>
   <th>Example</th><th>Comments</th>
   <tr><td><pre>
@@ -83,10 +87,7 @@ Some practical examples of portprofiles:
     </td></tr>
 </table>
 
-The port profiles are specified in the group_vars file of the related group.
-
-
-For example the hostvars for the interfaces on a switch can look like:
+The hostvars for the interfaces on a switch can look like following:
 ```
 interfaces:
   Ethernet0/0:
@@ -111,7 +112,6 @@ interfaces:
     portprofile: disabled
 ```
 
-Portprofile variables:
 This is a list of all variables currently available:
 
 |Name | Possible values | Default | description |
@@ -119,7 +119,7 @@ This is a list of all variables currently available:
 |adminstate | enabled / disabled | disabled | Administrative state of the port |
 |description | any string | empty | Port description |
 |portmode | access / trunk | access | Port tagging |
-|vlan | number(1) / range(1,2,3-6) / none / all | VLAN is used for both access and trunk ports, can be noted any way that is also used on CLI |
+|vlan | number(1) / range(1,2,3-6) / none / all | required | VLAN is used for both access and trunk ports, can be noted any way that is also used on CLI |
 |voicevlan | 1-4095 | no voicevlan | Switchport voice vlan statement |
 |nativevlan | 2-4095 | no native vlan(1) | native vlan, only used in conjunction with port mode trunk |
 |poe | Yes / True / No / False | No | Enable Power over Ethernet on the port |
