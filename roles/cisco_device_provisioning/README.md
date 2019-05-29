@@ -4,6 +4,9 @@ Cisco switch provisioning
 Provisioning is done with the [cisco_provisioning.yml](../../cisco_provisioning.yml) playbook.<br>
 This playbook calls 2 roles: cisco_device_provisioning, and cisco_vlan_service.<br>
 Together these roles generate and push a configuration for operating as a Layer2 switch, and a per port configuration for providing a vlan service for connected devices.<br>
+The interfaces arfe configured by portprofiles, which are abstracted sets of commands which are used to build an interface config.<br><br>
+
+Below is a description of how the datamodel is built, to provide a flexible method of configuring switches and Layer 2 interfaces hosted on these switches.<br>
 
 Device provisioning
 -------------------
