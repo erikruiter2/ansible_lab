@@ -1,0 +1,73 @@
+Validation Report for {{ inventory_hostname }}:
+
+Interface configuration issues:
+{% for interface in interfaces %}
+{#---- #}
+{#- initialize default values for variables #}
+{#---- #}
+{#---- #}
+{%   set config_data = { 
+                         "description": None,
+                         "vlan": None,
+                         "voicevlan": None,
+                         "nativevlan": None,
+                         "portmode": 'access',
+                         "adminstate": 'disabled',
+                         "poe": False,
+                         "cdp": True
+                          } %}
+{#---- #}
+{#- Load portprofile parameters if portprofile is used for interface #}
+{#---- #}
+{#---- #}
+{%   if 'portprofile' in interfaces[interface].keys() %}
+{%     for profile in portprofiles %}
+{%       if profile.name == interfaces[interface]['portprofile'] %}
+{%-        for parameter in config_data.keys() %}
+{%           if parameter in profile %}{% set x=config_data.__setitem__(parameter, profile[parameter]) %}{% endif %}
+{%           if parameter in interfaces[interface] %}{% set x=config_data.__setitem__(parameter, interfaces[interface][parameter]) %}{% endif %}
+{%         endfor %}
+{%       endif %}
+{%     endfor %}
+{%   else %}
+{#---- #}
+{#- Load interface parameters no portprofile is used for interface #}
+{#---- #}
+{#---- #}
+{%-    for parameter in config_data.keys() %}
+{%       if parameter in interfaces[interface] %}{% set x=config_data.__setitem__(parameter, interfaces[interface][parameter]) %}{% endif %}
+{%     endfor %}
+{%   endif %}
+{#---- #}
+{#- Compare actual and configured data for interface #}
+{#---- #}
+{#---- #}
+{%-  for c in spec_result %}
+{%-    for p in config_data.keys() %}
+{%-      if c[p] is iterable and c[p] is not string %}{% set x=c.update({p:c[p]| join(',')}) %}{% endif %}
+{%-      if c.name == interface and p in c and config_data[p] != c[p] %}
+{#- Ignore POE if not supported on switch #}
+{%         if poe_supported is defined and poe_supported == false and p=='poe'%}{% else %}
+{{ interface }} has a mismatch for {{ p }} - intended: '{{ config_data[p] }}'  actual: '{{ c[p] }}'
+{%         endif %}
+{%-      endif %}
+{%-    endfor %}
+{%-  endfor %}
+{#---- #}
+{#- Check interface state compared with intended config #}
+{#---- #}
+{#---- #}
+{%-  set state_result = result.ansible_facts.napalm_interfaces %}
+{%-  for i in state_result %}
+{%-    if i == interface and 'is_up' in state_result[i]%}
+{%-      if state_result[i].is_up == false and config_data.adminstate == 'enabled' %}
+interface {{ interface }} is down, but should be up
+{%-      endif %}
+{%       if state_result[i].is_up == True and config_data.adminstate == 'disabled' %}
+interface {{ interface }} is up, but should be admin disabled
+{%       endif %} 
+{%-    endif %}
+{%-  endfor %}
+{% endfor %}
+
+

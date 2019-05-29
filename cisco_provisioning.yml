@@ -5,6 +5,6 @@
   gather_facts: no
 
   roles: 
-    - cisco_device_provisioning
-    - cisco_vlan_service
-
+    - { role: cisco_device_provisioning, tags: ['device'] }
+    - { role: cisco_vlan_service, tags: ['service'] }
+    - { role: cisco_validate, tags: ['validate'] }

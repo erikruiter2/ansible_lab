@@ -1,0 +1,20 @@
+---
+- name: get config info from device
+  napalm_get_facts:
+    hostname: '{{ inventory_hostname }}'
+    username: '{{ ansible_user }}'
+    dev_os: '{{ ansible_network_os }}'
+    password: '{{ ansible_ssh_pass }}'
+    filter: ['config','interfaces']
+  register: result
+
+- name: parse received config info
+  set_fact:
+    spec_result: "{{ result.ansible_facts.napalm_config.running | parse_cli('roles/cisco_validate/tasks/interface_config.spec') }}"
+
+- name: Write validation report to file
+  template: 
+    src: validation_report.j2
+    dest: "{{ inventory_hostname }}_validation_report.txt"
+
+
