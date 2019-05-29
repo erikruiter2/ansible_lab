@@ -1,16 +1,15 @@
 poe_supported: False
 
 interfaces:
-  Ethernet0/0:
-    portprofile: lab_uplink_port
-  Ethernet0/1:
-    portprofile: lab_uplink_port
+#  Ethernet0/0:
+#    portprofile: lab_uplink_port
+#  Ethernet0/1:
+#    portprofile: lab_uplink_port
   Ethernet0/2:
     portprofile: cctv
   Ethernet0/3:
     adminstate: enabled
     associated_asset: ''
-    description: ''
     vlan: 411
     portmode: access
     poe: false
@@ -22,7 +21,7 @@ interfaces:
     portprofile: office
   Ethernet1/3:
     description: AP ground floor
-    portprofile: wifi_accesspoint
+    portprofile: office
   Ethernet2/0:
     description: AP first floor
     portprofile: wifi_accesspoint
@@ -31,7 +30,10 @@ interfaces:
     portprofile: office
     poe: False
   Ethernet2/2:
-    portprofile: disabled
+    description:
+    portmode: trunk
+    vlan: 10,20
+    nativevlan: 10
   Ethernet2/3:
     portprofile: disabled
   Ethernet3/0:
@@ -40,7 +42,7 @@ interfaces:
     portprofile: disabled
   Ethernet3/2:
     portprofile: disabled
-  Ethernet3/3:
-    portprofile: lab_switch_mgmt_vlan_10
-    customstatements:
-      - no spanning-tree bpduguard enable
+#  Ethernet3/3:
+#    portprofile: lab_switch_mgmt_vlan_10
+#    customstatements:
+#      - no spanning-tree bpduguard enable

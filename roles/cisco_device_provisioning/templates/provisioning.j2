@@ -4,9 +4,9 @@ service timestamps debug datetime msec
 service timestamps log datetime msec localtime
 service password-encryption
 service compress-config
-service unsupported-transceiver
+!service unsupported-transceiver
 !
-hostname {{ ansible_host }}
+hostname {{ inventory_hostname }}
 enable secret 0 {{ enable_secret }}
 aaa new-model
 !
@@ -31,20 +31,17 @@ no ip domain-lookup
 ip domain-name {{ dnsdomain }} 
 !
 !
-qos queue-softmax-multiplier 100
 vtp mode transparent
 !
 crypto key generate rsa mod 2048
 !
-diagnostic bootup level minimal
 spanning-tree mode rapid-pvst
 spanning-tree extend system-id
-hw-switch switch 1 logging onboard message level 3
 
 ip forward-protocol nd
 no ip http server
 ip http authentication local
-no ip http secure-server
+!no ip http secure-server
 !
 !
 ip ssh version 2
@@ -57,10 +54,9 @@ logging trap debugging
 {% if syslog is defined %}{{ prov.set_syslog(syslog) }}{% endif %}
 {% if ntp is defined %}{{ prov.set_ntp(ntp) }}{% endif %}
 {% if sw_mgmt_svi is defined %}{{ prov.set_mgmt_svi(sw_mgmt_svi) }}{% endif %}
-no vstack
 !
 !
-banner login ^
+banner login ^C
 ******************************************************************
 *                                                                *
 *      You are now attempting to access the * PRIVATE *          *
@@ -77,7 +73,7 @@ line con 0
  password {{ console_password }} 
  exec-timeout 10
  stopbits 1
-line vty 0 15
+line vty 0 4
  transport input ssh
  accounting exec netlogin
  login authentication netlogin

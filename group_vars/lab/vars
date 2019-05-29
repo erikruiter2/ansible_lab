@@ -73,7 +73,7 @@ portprofiles:
     cdp: False
   - name: office
     adminstate: enabled
-    description: port configuration for CCTV devices
+    description: port configuration for Office desktops and phones
     subnet: 192.168.1.0/24
     portmode: access
     vlan: 15

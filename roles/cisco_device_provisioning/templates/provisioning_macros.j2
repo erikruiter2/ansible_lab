@@ -11,7 +11,7 @@ snmp-server host {{ server['server'] }} version {{ server['version'] }} {{ serve
 
 {% macro set_tacacs(tacacs) %}
 {% for server in tacacs %}
-tacacs-server host {{ server['server'] }} timeout 5
+tacacs-server host {{ server['server'] }} timeout 1
 tacacs-server key 0 {{ server['key'] }} 
 {% endfor %}
 tacacs-server directed-request
@@ -37,7 +37,6 @@ ip name-server {{ server }}
 {% endmacro %}
 
 {% macro set_mgmt_svi(sw_mgmt_svi) %}
-{{ sw_mgmt_svi }}
 interface vlan{{ sw_mgmt_svi[0]['vlan'] }}
 description management interface
 ip address {{ sw_mgmt_svi[0]['ip'] }} {{ sw_mgmt_svi[0]['netmask'] }}
@@ -45,7 +44,7 @@ no shut
 ip default-gateway {{ sw_mgmt_svi[0]['default_gw'] }}
 ntp source vlan {{ sw_mgmt_svi[0]['vlan'] }}
 logging source-interface vlan{{ sw_mgmt_svi[0]['vlan'] }}
-snmp-server source-interface vlan{{ sw_mgmt_svi[0]['vlan'] }}
+snmp-server source-interface traps vlan{{ sw_mgmt_svi[0]['vlan'] }}
 {% endmacro %}
 
 {% macro set_users(users) %}
