@@ -2,11 +2,26 @@ Cisco switch provisioning
 -------------------------
 
 Provisioning is done with the [cisco_provisioning.yml](../../cisco_provisioning.yml) playbook.<br>
-This playbook calls 2 roles: cisco_device_provisioning, and cisco_vlan_service.<br>
+This playbook calls 3 roles: 
+* cisco_device_provisioning
+* cisco_vlan_service
+* cisco_validate
+
 Together these roles generate and push a configuration for operating as a Layer2 switch, and a per port configuration for providing a vlan service for connected devices.<br>
-The interfaces arfe configured by portprofiles, which are abstracted sets of commands which are used to build an interface config.<br><br>
+The settings for the interfaces are configured by portprofiles, which are abstracted sets of commands which are used to build an interface config.<br>
+Afterwards the configured vlan service is validated. This means that Ansible checks the live config and compares it with the defined variables of the device.<br><br>
 
 Below is a description of how the datamodel is built, to provide a flexible method of configuring switches and Layer 2 interfaces hosted on these switches.<br>
+
+Usage:
+
+The playbook can be run using tags, this means that you can optionally run only a single or multiple roles. The available tags are `device`, `service` and `validate`.<br>
+For example:<br>
+`ansible-playbook cisco_provisioning.yml`<br>
+Will run all roles (device provisioning, vlan provisioning and config validation for all devices for the groups specified in the playbook.<br>
+`ansible-playbook cisco_provisioning.yml --tags validate --limit s12-iol`<br>
+Will only run the config validation role for the device named s12-iol.<br><br>
+
 
 Device provisioning
 -------------------
