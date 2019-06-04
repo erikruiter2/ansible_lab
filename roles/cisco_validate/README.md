@@ -11,7 +11,7 @@ It also checks if the interfaces which should be up, are actually up, and the on
 This role is currently only supported for Cisco IOL devices using 'Ethernet' naming of their interfaces.<br>
 
 Example
---------------------
+-------
 there is a switch called s12-iol.
 It has some  interfaces configured as follows in the hostvars file:
 ```
@@ -32,8 +32,9 @@ we can change the variables to for instance:
   Ethernet1/2:
     portprofile: disabled
 ```
-Eample run:
+Eample run:<br>
 We can run the provisioning playbook using only the validation tag to avoid configuring the switch and only running the validation.<br>
+
 ```~/ansible_lab$ ansible-playbook cisco_provisioning.yml --limit s12-iol --tags validate
 
 PLAY [Device and service provisioning for cisco devices] **********************************************************
