@@ -17,7 +17,7 @@ digraph G {
 {%       if { lldp_data[interface][0]['hostname'] : lldp_data[interface][0]['port'] | lower|regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>')  } not in already_done %}
     "{{ fqdn }}" -> "{{ lldp_data[interface][0]['hostname'] }}" [minlen=2 headlabel="{{ lldp_data[interface][0]['port'] }}" taillabel="{{ interface | regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>') }}"];
 {%       endif %}
-{{ already_done.append( { fqdn : interface |lower|regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>') }) }}
+{{ already_done.append( { fqdn : interface | lower|regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>') }) }}
 {%     endfor %}
 {%   endif %}
 {% endfor %}
