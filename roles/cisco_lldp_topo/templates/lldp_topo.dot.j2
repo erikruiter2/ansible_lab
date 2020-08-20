@@ -9,16 +9,16 @@ digraph G {
     node  [style="rounded,filled,bold", shape=box, width=1.3, fontname="Arial"];
     edge [fontsize=10]; 
     {% set already_done = [] %}
-    {% for host in hostvars %}
-      {% if 'napalm_lldp_neighbors' in hostvars[host]['ansible_facts'] %}
-        {% set fqdn = hostvars[host]['ansible_facts']['napalm_fqdn'] %}
-        {% set lldp_data = hostvars[host]['ansible_facts']['napalm_lldp_neighbors'] %}
-          {% for interface in lldp_data %}
-            {% if { lldp_data[interface][0]['hostname'] : lldp_data[interface][0]['port'] | lower|regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>')  } not in already_done %}
-              "{{ fqdn }}" -> "{{ lldp_data[interface][0]['hostname'] }}" [minlen=2 headlabel="{{ lldp_data[interface][0]['port'] }}" taillabel="{{ interface | regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>') }}"];
-            {% endif %}
-            {{ already_done.append( { fqdn : interface |lower|regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>') }) }}
-          {% endfor %}
-      {% endif %}
+    {%   for host in hostvars %}
+    {%     if 'napalm_lldp_neighbors' in hostvars[host]['ansible_facts'] %}
+    {%     set fqdn = hostvars[host]['ansible_facts']['napalm_fqdn'] %}
+    {%     set lldp_data = hostvars[host]['ansible_facts']['napalm_lldp_neighbors'] %}
+    {%       for interface in lldp_data %}
+    {%         if { lldp_data[interface][0]['hostname'] : lldp_data[interface][0]['port'] | lower|regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>')  } not in already_done %}
+    "{{ fqdn }}" -> "{{ lldp_data[interface][0]['hostname'] }}" [minlen=2 headlabel="{{ lldp_data[interface][0]['port'] }}" taillabel="{{ interface | regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>') }}"];
+    {%         endif %}
+    {{ already_done.append( { fqdn : interface |lower|regex_replace('(?P<int>^\\D\\D)\\D+(?P<slotnumber>\\d.+)','\\g<int>\\g<slotnumber>') }) }}
+    {%       endfor %}
+    {%     endif %}
     {% endfor %}
 }
