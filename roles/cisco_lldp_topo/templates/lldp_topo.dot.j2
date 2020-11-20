@@ -10,15 +10,15 @@ digraph G {
     edge [fontsize=10]; 
 {% set already_done = [] %}
 {% for host in hostvars %}
-{% if 'napalm_lldp_neighbors' in hostvars[host]['ansible_facts'] %}
-{% set fqdn = hostvars[host]['ansible_facts']['napalm_fqdn'] %}
-{% set lldp_data = hostvars[host]['ansible_facts']['napalm_lldp_neighbors'] %}
-{% for interface in lldp_data %}
-{% if { lldp_data[interface][0]['hostname'] : lldp_data[interface][0]['port'] } not in already_done %}
-    "{{ fqdn }}" -> "{{ lldp_data[interface][0]['hostname'] }}" [minlen=2 headlabel="{{ lldp_data[interface][0]['port'] }}" taillabel="{{ interface | replace("Ethernet", "Et") }}"];
-{% endif %}
-{{ already_done.append( { fqdn : interface | replace("Ethernet", "Et") }) }}
-{% endfor %}
-{% endif %}
+{%   if 'napalm_lldp_neighbors' in hostvars[host]['ansible_facts'] %}
+{%     set fqdn = hostvars[host]['ansible_facts']['napalm_fqdn'] %}
+{%     set lldp_data = hostvars[host]['ansible_facts']['napalm_lldp_neighbors'] %}
+{%     for interface in lldp_data %}
+{%       if { lldp_data[interface][0]['hostname'] : lldp_data[interface][0]['port'] | lower|regex_replace('(?P<slot>^\\D\\D)\\D+(?P<portnumber>\\d.+)','\\g<slot>\\g<portnumber>')  } not in already_done %}
+    "{{ fqdn }}" -> "{{ lldp_data[interface][0]['hostname'] }}" [minlen=2 headlabel="{{ lldp_data[interface][0]['port'] }}" taillabel="{{ interface | regex_replace('(?P<slot>^\\D\\D)\\D+(?P<portnumber>\\d.+)','\\g<slot>\\g<portnumber>') }}"];
+{%       endif %}
+{{ already_done.append( { fqdn : interface | lower|regex_replace('(?P<slot>^\\D\\D)\\D+(?P<portnumber>\\d.+)','\\g<slot>\\g<portnumber>') }) }}
+{%     endfor %}
+{%   endif %}
 {% endfor %}
 }
